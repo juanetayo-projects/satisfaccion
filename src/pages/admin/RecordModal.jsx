@@ -3,7 +3,7 @@ import { X, Save, ChevronDown } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
 import {
   SEDES, ENTIDADES, SERVICIOS, EXPERIENCIA_GLOBAL,
-  MOTIVOS_INSATISFACCION, RATING_COLORS, EXPERIENCIA_COLORS
+  MOTIVOS_INSATISFACCION, EXPERIENCIA_COLORS
 } from '../../lib/constants'
 import StarRating from '../../components/ui/StarRating'
 import { format } from 'date-fns'
@@ -14,6 +14,47 @@ const BLANK = {
   p1_recepcion: null, p2_personal_asistencial: null, p3_comodidad: null,
   p4_experiencia_global: '', p5_motivo_insatisfaccion: '',
   p6_recomendaria: '', comentarios: '',
+}
+
+// Definidos FUERA del componente para evitar remontaje en cada render
+function Field({ label, name, type = 'text', placeholder, value, onChange, isView }) {
+  return (
+    <div>
+      <label className="block text-xs font-semibold text-gray-500 mb-1 uppercase tracking-wide">{label}</label>
+      {isView
+        ? <div className="text-sm text-gray-800 bg-gray-50 rounded-xl px-4 py-2.5 min-h-[40px]">{value || '—'}</div>
+        : <input
+            type={type}
+            name={name}
+            value={value || ''}
+            onChange={onChange}
+            placeholder={placeholder}
+            className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+          />
+      }
+    </div>
+  )
+}
+
+function SelectF({ label, name, options, value, onChange, isView }) {
+  return (
+    <div>
+      <label className="block text-xs font-semibold text-gray-500 mb-1 uppercase tracking-wide">{label}</label>
+      {isView
+        ? <div className="text-sm text-gray-800 bg-gray-50 rounded-xl px-4 py-2.5 min-h-[40px]">{value || '—'}</div>
+        : (
+          <div className="relative">
+            <select name={name} value={value || ''} onChange={onChange}
+              className="w-full appearance-none border border-gray-200 rounded-xl px-4 py-2.5 pr-9 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary-500">
+              <option value="">— Seleccione —</option>
+              {options.map(o => <option key={o} value={o}>{o}</option>)}
+            </select>
+            <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+          </div>
+        )
+      }
+    </div>
+  )
 }
 
 export default function RecordModal({ mode, record, onClose, onSaved }) {
@@ -58,46 +99,6 @@ export default function RecordModal({ mode, record, onClose, onSaved }) {
     }
   }
 
-  function Field({ label, name, type = 'text', placeholder }) {
-    return (
-      <div>
-        <label className="block text-xs font-semibold text-gray-500 mb-1 uppercase tracking-wide">{label}</label>
-        {isView
-          ? <div className="text-sm text-gray-800 bg-gray-50 rounded-xl px-4 py-2.5 min-h-[40px]">{form[name] || '—'}</div>
-          : <input
-              type={type}
-              name={name}
-              value={form[name] || ''}
-              onChange={handle}
-              placeholder={placeholder}
-              className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
-            />
-        }
-      </div>
-    )
-  }
-
-  function SelectF({ label, name, options }) {
-    return (
-      <div>
-        <label className="block text-xs font-semibold text-gray-500 mb-1 uppercase tracking-wide">{label}</label>
-        {isView
-          ? <div className="text-sm text-gray-800 bg-gray-50 rounded-xl px-4 py-2.5 min-h-[40px]">{form[name] || '—'}</div>
-          : (
-            <div className="relative">
-              <select name={name} value={form[name] || ''} onChange={handle}
-                className="w-full appearance-none border border-gray-200 rounded-xl px-4 py-2.5 pr-9 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary-500">
-                <option value="">— Seleccione —</option>
-                {options.map(o => <option key={o} value={o}>{o}</option>)}
-              </select>
-              <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
-            </div>
-          )
-        }
-      </div>
-    )
-  }
-
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col">
@@ -119,14 +120,14 @@ export default function RecordModal({ mode, record, onClose, onSaved }) {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="sm:col-span-2">
-              <Field label="Nombre completo" name="nombre_completo" />
+              <Field label="Nombre completo" name="nombre_completo" value={form.nombre_completo} onChange={handle} isView={isView} />
             </div>
-            <Field label="Identificación" name="numero_identificacion" />
-            <Field label="Teléfono" name="telefono" type="tel" />
-            <SelectF label="Sede" name="sede" options={SEDES} />
-            <SelectF label="Entidad de salud" name="entidad_salud" options={ENTIDADES} />
+            <Field label="Identificación" name="numero_identificacion" value={form.numero_identificacion} onChange={handle} isView={isView} />
+            <Field label="Teléfono" name="telefono" type="tel" value={form.telefono} onChange={handle} isView={isView} />
+            <SelectF label="Sede" name="sede" options={SEDES} value={form.sede} onChange={handle} isView={isView} />
+            <SelectF label="Entidad de salud" name="entidad_salud" options={ENTIDADES} value={form.entidad_salud} onChange={handle} isView={isView} />
             <div className="sm:col-span-2">
-              <SelectF label="Servicio" name="servicio" options={SERVICIOS} />
+              <SelectF label="Servicio" name="servicio" options={SERVICIOS} value={form.servicio} onChange={handle} isView={isView} />
             </div>
           </div>
 
@@ -165,7 +166,7 @@ export default function RecordModal({ mode, record, onClose, onSaved }) {
             }
           </div>
 
-          <SelectF label="Motivo insatisfacción" name="p5_motivo_insatisfaccion" options={MOTIVOS_INSATISFACCION} />
+          <SelectF label="Motivo insatisfacción" name="p5_motivo_insatisfaccion" options={MOTIVOS_INSATISFACCION} value={form.p5_motivo_insatisfaccion} onChange={handle} isView={isView} />
 
           <div>
             <label className="block text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wide">¿Recomendaría?</label>
