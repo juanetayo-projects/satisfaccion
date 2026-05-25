@@ -30,15 +30,22 @@ export default function Sidebar({ open, onToggle }) {
         overflow-hidden
       `}>
         {/* Logo */}
-        <div className="flex items-center justify-between px-4 py-4 border-b border-primary-600">
-          <img
-            src="/satisfaccion/logo-blanco.png"
-            alt="CAC Santa Bárbara"
-            className="h-10 object-contain"
-          />
-          <button onClick={onToggle} className="lg:hidden text-primary-300 hover:text-white ml-2">
-            <X size={18} />
-          </button>
+        <div className="px-4 py-4 border-b border-primary-600">
+          <div className="flex items-center justify-between mb-2">
+            <img
+              src="/satisfaccion/logo-blanco.png"
+              alt="CAC Santa Bárbara"
+              className="h-10 object-contain"
+            />
+            <button onClick={onToggle} className="lg:hidden text-primary-300 hover:text-white ml-2">
+              <X size={18} />
+            </button>
+          </div>
+          <div className="text-center">
+            <span className="text-xs font-semibold text-primary-200 uppercase tracking-widest">
+              Satisfacción de Usuarios
+            </span>
+          </div>
         </div>
 
         {/* Navigation */}
