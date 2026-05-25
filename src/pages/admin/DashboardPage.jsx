@@ -82,7 +82,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Promedios por dimensión */}
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+      <div className="bg-white rounded-2xl shadow-md border border-gray-100 p-6">
         <h2 className="font-bold text-gray-700 text-base mb-4">Promedios por Dimensión</h2>
         <div className="grid grid-cols-3 gap-4">
           {[
@@ -112,7 +112,7 @@ export default function DashboardPage() {
       {/* Charts row */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Experiencia global */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+        <div className="bg-white rounded-2xl shadow-md border border-gray-100 p-6">
           <h2 className="font-bold text-gray-700 text-base mb-4">Experiencia Global</h2>
           <ResponsiveContainer width="100%" height={220}>
             <BarChart data={experienciaData} barSize={36}>
@@ -130,7 +130,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Tendencia mensual */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+        <div className="bg-white rounded-2xl shadow-md border border-gray-100 p-6">
           <h2 className="font-bold text-gray-700 text-base mb-4">Tendencia Mensual</h2>
           <ResponsiveContainer width="100%" height={220}>
             <LineChart data={stats.trend}>
@@ -150,7 +150,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Por sede */}
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+      <div className="bg-white rounded-2xl shadow-md border border-gray-100 p-6">
         <h2 className="font-bold text-gray-700 text-base mb-4">Distribución por Sede</h2>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <ResponsiveContainer width="100%" height={220}>

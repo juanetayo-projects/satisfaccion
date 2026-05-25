@@ -92,7 +92,7 @@ export default function RegistrosPage() {
       </div>
 
       {/* Search & filter bar */}
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4">
+      <div className="bg-white rounded-2xl border border-gray-100 shadow-md p-4">
         <div className="flex gap-3 flex-wrap">
           <div className="relative flex-1 min-w-48">
             <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
@@ -156,7 +156,7 @@ export default function RegistrosPage() {
       </div>
 
       {/* Table */}
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+      <div className="bg-white rounded-2xl border border-gray-100 shadow-md overflow-hidden">
         {loading ? (
           <LoadingSpinner />
         ) : data.length === 0 ? (

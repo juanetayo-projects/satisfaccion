@@ -130,7 +130,7 @@ export default function EncuestaPage() {
       <form onSubmit={onSubmit} className="max-w-2xl mx-auto px-4 py-8 space-y-6">
 
         {/* Datos personales */}
-        <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+        <section className="bg-white rounded-2xl shadow-md border border-gray-100 p-6">
           <h2 className="text-base font-bold text-primary-700 mb-4 flex items-center gap-2">
             <span className="w-6 h-6 bg-primary-100 text-primary-700 rounded-full flex items-center justify-center text-xs font-bold">1</span>
             Datos del Paciente
@@ -145,7 +145,7 @@ export default function EncuestaPage() {
         </section>
 
         {/* Información de la atención */}
-        <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+        <section className="bg-white rounded-2xl shadow-md border border-gray-100 p-6">
           <h2 className="text-base font-bold text-primary-700 mb-4 flex items-center gap-2">
             <span className="w-6 h-6 bg-primary-100 text-primary-700 rounded-full flex items-center justify-center text-xs font-bold">2</span>
             Información de la Atención
@@ -160,7 +160,7 @@ export default function EncuestaPage() {
         </section>
 
         {/* Calificaciones */}
-        <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+        <section className="bg-white rounded-2xl shadow-md border border-gray-100 p-6">
           <h2 className="text-base font-bold text-primary-700 mb-5 flex items-center gap-2">
             <span className="w-6 h-6 bg-primary-100 text-primary-700 rounded-full flex items-center justify-center text-xs font-bold">3</span>
             Calificación del Servicio
@@ -185,7 +185,7 @@ export default function EncuestaPage() {
         </section>
 
         {/* Experiencia global */}
-        <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+        <section className="bg-white rounded-2xl shadow-md border border-gray-100 p-6">
           <h2 className="text-base font-bold text-primary-700 mb-5 flex items-center gap-2">
             <span className="w-6 h-6 bg-primary-100 text-primary-700 rounded-full flex items-center justify-center text-xs font-bold">4</span>
             Experiencia Global
@@ -218,7 +218,7 @@ export default function EncuestaPage() {
         </section>
 
         {/* Motivo y recomendación */}
-        <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+        <section className="bg-white rounded-2xl shadow-md border border-gray-100 p-6">
           <h2 className="text-base font-bold text-primary-700 mb-4 flex items-center gap-2">
             <span className="w-6 h-6 bg-primary-100 text-primary-700 rounded-full flex items-center justify-center text-xs font-bold">5</span>
             Información Adicional

@@ -106,7 +106,7 @@ export default function UsuariosPage() {
         </button>
       </div>
 
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+      <div className="bg-white rounded-2xl border border-gray-100 shadow-md overflow-hidden">
         {loading ? (
           <LoadingSpinner />
         ) : users.length === 0 ? (

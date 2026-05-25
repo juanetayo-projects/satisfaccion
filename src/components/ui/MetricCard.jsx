@@ -8,7 +8,7 @@ export default function MetricCard({ title, value, subtitle, icon: Icon, color =
     purple: 'from-purple-600 to-purple-400',
   }
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow">
+    <div className="bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden hover:shadow-lg transition-shadow">
       <div className={`bg-gradient-to-r ${colors[color]} p-4 flex items-center justify-between`}>
         {Icon && <Icon size={32} className="text-white opacity-90" />}
         {trend !== undefined && (
