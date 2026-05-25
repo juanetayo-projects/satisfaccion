@@ -6,22 +6,21 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
+function json(body: unknown, status = 200) {
+  return new Response(JSON.stringify(body), {
+    status,
+    headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+  })
+}
+
 serve(async (req) => {
-  // Handle CORS preflight
-  if (req.method === 'OPTIONS') {
-    return new Response('ok', { headers: corsHeaders })
-  }
+  if (req.method === 'OPTIONS') return new Response('ok', { headers: corsHeaders })
 
   try {
-    // 1. Verificar que el solicitante está autenticado y es administrador
+    // 1. Verificar autenticación del solicitante
     const authHeader = req.headers.get('Authorization')
-    if (!authHeader) {
-      return new Response(JSON.stringify({ error: 'No autorizado' }), {
-        status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      })
-    }
+    if (!authHeader) return json({ error: 'No autorizado' }, 401)
 
-    // Cliente con la clave anónima para verificar el token del solicitante
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!
     const serviceKey  = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
     const anonKey     = Deno.env.get('SUPABASE_ANON_KEY')!
@@ -29,86 +28,79 @@ serve(async (req) => {
     const callerClient = createClient(supabaseUrl, anonKey, {
       global: { headers: { Authorization: authHeader } },
     })
+    const { data: { user: caller } } = await callerClient.auth.getUser()
+    if (!caller) return json({ error: 'Sesión inválida' }, 401)
 
-    const { data: { user: caller }, error: authErr } = await callerClient.auth.getUser()
-    if (authErr || !caller) {
-      return new Response(JSON.stringify({ error: 'Token inválido' }), {
-        status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      })
-    }
-
-    // Verificar que el solicitante es administrador
     const { data: callerProfile } = await callerClient
-      .from('profiles')
-      .select('rol')
-      .eq('id', caller.id)
-      .single()
-
+      .from('profiles').select('rol').eq('id', caller.id).single()
     if (callerProfile?.rol !== 'administrador') {
-      return new Response(JSON.stringify({ error: 'Solo los administradores pueden crear usuarios' }), {
-        status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      })
+      return json({ error: 'Solo los administradores pueden crear usuarios' }, 403)
     }
 
-    // 2. Leer datos del nuevo usuario
+    // 2. Leer datos
     const { email, nombre, rol } = await req.json()
+    if (!email?.includes('@')) return json({ error: 'Correo electrónico inválido' }, 400)
+    const rolFinal = ['administrador', 'encuestador'].includes(rol) ? rol : 'encuestador'
 
-    if (!email || !email.includes('@')) {
-      return new Response(JSON.stringify({ error: 'Correo electrónico inválido' }), {
-        status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      })
-    }
-
-    const rolValido = ['administrador', 'encuestador'].includes(rol) ? rol : 'encuestador'
-
-    // 3. Usar la clave de servicio para invitar al usuario (seguro en el servidor)
     const adminClient = createClient(supabaseUrl, serviceKey)
 
-    const { data: invited, error: inviteErr } = await adminClient.auth.admin.inviteUserByEmail(email, {
-      data: { nombre, rol: rolValido },
-      redirectTo: `https://juanetayo-projects.github.io/satisfaccion/#/login`,
-    })
+    // 3. Verificar si el usuario ya existe en auth
+    const { data: existingList } = await adminClient.auth.admin.listUsers()
+    const existingAuth = existingList?.users?.find(
+      u => u.email?.toLowerCase() === email.toLowerCase()
+    )
 
-    if (inviteErr) {
-      // Si el usuario ya existe, intentar obtener su ID
-      if (inviteErr.message.includes('already been registered') || inviteErr.code === 'email_exists') {
-        return new Response(JSON.stringify({
-          error: 'Este correo ya está registrado en el sistema de autenticación.',
-        }), { status: 409, headers: { ...corsHeaders, 'Content-Type': 'application/json' } })
-      }
-      throw inviteErr
+    let userId: string
+
+    if (existingAuth) {
+      // Usuario ya existe en auth → solo crear/actualizar perfil y enviar reset de contraseña
+      userId = existingAuth.id
+
+      // Enviar email de reset para que pueda ingresar
+      await adminClient.auth.admin.generateLink({
+        type: 'recovery',
+        email: email.toLowerCase(),
+        options: {
+          redirectTo: 'https://juanetayo-projects.github.io/satisfaccion/#/login',
+        },
+      })
+    } else {
+      // Usuario nuevo → invitar por correo
+      const { data: invited, error: inviteErr } = await adminClient.auth.admin.inviteUserByEmail(
+        email.toLowerCase(),
+        {
+          data: { nombre, rol: rolFinal },
+          redirectTo: 'https://juanetayo-projects.github.io/satisfaccion/#/login',
+        }
+      )
+      if (inviteErr) return json({ error: inviteErr.message }, 400)
+      userId = invited.user!.id
     }
 
-    // 4. Crear el perfil (el trigger debería crearlo, pero lo aseguramos aquí)
-    if (invited?.user?.id) {
-      const { error: profileErr } = await adminClient
-        .from('profiles')
-        .upsert({
-          id:     invited.user.id,
-          email:  email.toLowerCase(),
-          nombre: nombre || '',
-          rol:    rolValido,
-          activo: true,
-        }, { onConflict: 'id' })
+    // 4. Crear o actualizar perfil
+    const { error: profileErr } = await adminClient
+      .from('profiles')
+      .upsert({
+        id:     userId,
+        email:  email.toLowerCase(),
+        nombre: nombre || '',
+        rol:    rolFinal,
+        activo: true,
+      }, { onConflict: 'id' })
 
-      if (profileErr) {
-        console.error('Error creando perfil:', profileErr.message)
-      }
+    if (profileErr) {
+      console.error('Error perfil:', profileErr.message)
+      return json({ error: 'Usuario creado pero hubo un error guardando el perfil: ' + profileErr.message }, 500)
     }
 
-    return new Response(JSON.stringify({
-      success: true,
-      message: `Invitación enviada a ${email}. El usuario recibirá un correo para establecer su contraseña.`,
-      userId: invited?.user?.id,
-    }), {
-      status: 200,
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-    })
+    const msg = existingAuth
+      ? `El usuario ${email} ya existía. Se actualizó su perfil y se envió un correo para restablecer la contraseña.`
+      : `Invitación enviada a ${email}. El usuario recibirá un correo para crear su contraseña.`
+
+    return json({ success: true, message: msg, userId })
 
   } catch (err) {
-    console.error('Error en invite-user:', err)
-    return new Response(JSON.stringify({ error: err.message || 'Error interno del servidor' }), {
-      status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-    })
+    console.error('Error invite-user:', err)
+    return json({ error: err.message || 'Error interno' }, 500)
   }
 })

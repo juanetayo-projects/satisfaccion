@@ -35,7 +35,15 @@ function ModalCrear({ onClose, onSaved }) {
           rol:    form.rol,
         },
       })
-      if (fnErr) throw new Error(fnErr.message)
+      // Extraer mensaje real del cuerpo de la respuesta si hay error HTTP
+      if (fnErr) {
+        let msg = 'Error al procesar la solicitud'
+        try {
+          const body = await fnErr.context?.json?.()
+          msg = body?.error || fnErr.message || msg
+        } catch { msg = fnErr.message || msg }
+        throw new Error(msg)
+      }
       if (data?.error) throw new Error(data.error)
 
       setSuccess(data?.message || `Invitación enviada a ${form.email}`)
