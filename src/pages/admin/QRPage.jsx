@@ -2,7 +2,7 @@ import { useRef, useState } from 'react'
 import { QRCodeCanvas } from 'qrcode.react'
 import { Download, Copy, CheckCircle, ExternalLink, QrCode } from 'lucide-react'
 
-const SURVEY_URL = 'https://juanetayo-projects.github.io/satisfaccion/#/encuesta'
+const SURVEY_URL = 'https://satisfaccion.cacsantabarbara.co/#/encuesta'
 
 const SIZES = [
   { label: 'Pequeño (200px)', value: 200, desc: 'WhatsApp / redes sociales' },
@@ -61,7 +61,7 @@ export default function QRPage() {
               level="H"
               includeMargin={false}
               imageSettings={{
-                src: '/satisfaccion/logo.png',
+                src: '/logo.png',
                 x: undefined,
                 y: undefined,
                 height: 40,

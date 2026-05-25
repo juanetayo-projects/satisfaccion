@@ -34,7 +34,7 @@ export default function Sidebar({ open, onToggle }) {
         <div className="px-4 py-4 border-b border-primary-600">
           <div className="flex items-center justify-between mb-2">
             <img
-              src="/satisfaccion/logo-blanco.png"
+              src="/logo-blanco.png"
               alt="CAC Santa Bárbara"
               className="h-10 object-contain"
             />
