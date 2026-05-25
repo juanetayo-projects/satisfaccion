@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { HeartPulse, Eye, EyeOff, Lock, Mail } from 'lucide-react'
+import { Eye, EyeOff, Lock, Mail } from 'lucide-react'
 import { useAuth } from '../../hooks/useAuth'
 
 export default function LoginPage() {
@@ -32,11 +32,11 @@ export default function LoginPage() {
         <div className="bg-white rounded-3xl shadow-2xl overflow-hidden">
           {/* Top brand bar */}
           <div className="bg-gradient-to-r from-primary-700 to-primary-600 px-8 pt-8 pb-10 text-center">
-            <div className="inline-flex p-3 bg-white/20 rounded-2xl mb-3">
-              <HeartPulse size={32} className="text-white" />
-            </div>
-            <h1 className="text-white text-xl font-extrabold leading-tight">Clínica de Alta Complejidad</h1>
-            <p className="text-primary-200 text-sm mt-0.5">Santa Bárbara</p>
+            <img
+              src="/satisfaccion/logo-blanco.png"
+              alt="CAC Santa Bárbara"
+              className="h-16 object-contain mx-auto drop-shadow-md"
+            />
           </div>
 
           <div className="px-8 pb-8 -mt-4">

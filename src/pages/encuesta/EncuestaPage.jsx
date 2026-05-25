@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { HeartPulse, CheckCircle, Send, ChevronDown } from 'lucide-react'
+import { CheckCircle, Send, ChevronDown } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
 import {
   SEDES, ENTIDADES, SERVICIOS, EXPERIENCIA_GLOBAL,
@@ -115,14 +115,12 @@ export default function EncuestaPage() {
       {/* Header */}
       <div className="bg-gradient-to-r from-primary-700 to-primary-600 text-white">
         <div className="max-w-2xl mx-auto px-4 py-8 text-center">
-          <div className="flex items-center justify-center gap-3 mb-3">
-            <div className="p-2.5 bg-white/20 rounded-2xl">
-              <HeartPulse size={28} className="text-white" />
-            </div>
-            <div className="text-left">
-              <div className="font-bold text-lg leading-tight">Clínica de Alta Complejidad</div>
-              <div className="text-primary-200 text-sm">Santa Bárbara</div>
-            </div>
+          <div className="flex items-center justify-center mb-3">
+            <img
+              src="/satisfaccion/logo-blanco.png"
+              alt="Clínica de Alta Complejidad Santa Bárbara"
+              className="h-16 object-contain drop-shadow-md"
+            />
           </div>
           <h1 className="text-2xl font-extrabold mt-4 mb-1">Encuesta de Satisfacción</h1>
           <p className="text-primary-200 text-sm">Su opinión es muy importante para nosotros</p>

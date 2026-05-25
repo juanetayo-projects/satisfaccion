@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom'
 import {
   LayoutDashboard, ClipboardList, BarChart3,
-  Users, LogOut, Menu, X, HeartPulse
+  Users, LogOut, X
 } from 'lucide-react'
 import { useAuth } from '../../hooks/useAuth'
 
@@ -30,15 +30,13 @@ export default function Sidebar({ open, onToggle }) {
         overflow-hidden
       `}>
         {/* Logo */}
-        <div className="flex items-center gap-3 px-5 py-5 border-b border-primary-600">
-          <div className="p-2 bg-white/10 rounded-xl">
-            <HeartPulse size={22} className="text-white" />
-          </div>
-          <div className="min-w-0">
-            <div className="text-white font-bold text-sm leading-tight">CAC Santa Bárbara</div>
-            <div className="text-primary-300 text-xs">Satisfacción del Usuario</div>
-          </div>
-          <button onClick={onToggle} className="lg:hidden ml-auto text-primary-300 hover:text-white">
+        <div className="flex items-center justify-between px-4 py-4 border-b border-primary-600">
+          <img
+            src="/satisfaccion/logo-blanco.png"
+            alt="CAC Santa Bárbara"
+            className="h-10 object-contain"
+          />
+          <button onClick={onToggle} className="lg:hidden text-primary-300 hover:text-white ml-2">
             <X size={18} />
           </button>
         </div>
