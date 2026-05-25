@@ -1,14 +1,15 @@
 import { NavLink } from 'react-router-dom'
 import {
   LayoutDashboard, ClipboardList, BarChart3,
-  Users, LogOut, X
+  Users, LogOut, X, QrCode
 } from 'lucide-react'
 import { useAuth } from '../../hooks/useAuth'
 
 const navItems = [
-  { to: '/admin',          label: 'Dashboard',  icon: LayoutDashboard, exact: true },
+  { to: '/admin',           label: 'Dashboard',  icon: LayoutDashboard, exact: true },
   { to: '/admin/registros', label: 'Registros',  icon: ClipboardList },
   { to: '/admin/analisis',  label: 'Análisis',   icon: BarChart3 },
+  { to: '/admin/qr',        label: 'Código QR',  icon: QrCode },
   { to: '/admin/usuarios',  label: 'Usuarios',   icon: Users, adminOnly: true },
 ]
 

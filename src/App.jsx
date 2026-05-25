@@ -7,6 +7,7 @@ import DashboardPage from './pages/admin/DashboardPage'
 import RegistrosPage from './pages/admin/RegistrosPage'
 import AnalisisPage  from './pages/admin/AnalisisPage'
 import UsuariosPage  from './pages/admin/UsuariosPage'
+import QRPage        from './pages/admin/QRPage'
 import NotFoundPage  from './pages/NotFoundPage'
 import LoadingSpinner from './components/ui/LoadingSpinner'
 
@@ -38,6 +39,7 @@ function AppRoutes() {
             <UsuariosPage />
           </ProtectedRoute>
         } />
+        <Route path="qr" element={<QRPage />} />
       </Route>
 
       <Route path="*" element={<NotFoundPage />} />
