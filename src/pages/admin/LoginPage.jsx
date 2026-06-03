@@ -33,7 +33,7 @@ export default function LoginPage() {
           {/* Top brand bar */}
           <div className="bg-gradient-to-r from-primary-700 to-primary-600 px-8 pt-8 pb-10 text-center">
             <img
-              src="/logo-blanco.png"
+              src="/satisfaccion/logo-blanco.png"
               alt="CAC Santa Bárbara"
               className="h-16 object-contain mx-auto drop-shadow-md"
             />

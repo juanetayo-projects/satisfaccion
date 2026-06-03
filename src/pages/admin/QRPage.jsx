@@ -61,7 +61,7 @@ export default function QRPage() {
               level="H"
               includeMargin={false}
               imageSettings={{
-                src: '/logo.png',
+                src: '/satisfaccion/logo.png',
                 x: undefined,
                 y: undefined,
                 height: 40,

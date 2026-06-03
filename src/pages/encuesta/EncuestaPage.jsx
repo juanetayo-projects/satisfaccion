@@ -117,7 +117,7 @@ export default function EncuestaPage() {
         <div className="max-w-2xl mx-auto px-4 py-8 text-center">
           <div className="flex items-center justify-center mb-3">
             <img
-              src="/logo-blanco.png"
+              src="/satisfaccion/logo-blanco.png"
               alt="Clínica de Alta Complejidad Santa Bárbara"
               className="h-16 object-contain drop-shadow-md"
             />
