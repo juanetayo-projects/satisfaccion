@@ -2,7 +2,8 @@ import { useRef, useState } from 'react'
 import { QRCodeCanvas } from 'qrcode.react'
 import { Download, Copy, CheckCircle, ExternalLink, QrCode } from 'lucide-react'
 
-const SURVEY_URL = 'https://satisfaccion.cacsantabarbara.co/#/encuesta'
+// Cambiar a 'https://satisfaccion.cacsantabarbara.co/#/encuesta' cuando el DNS esté configurado
+const SURVEY_URL = 'https://juanetayo-projects.github.io/satisfaccion/#/encuesta'
 
 const SIZES = [
   { label: 'Pequeño (200px)', value: 200, desc: 'WhatsApp / redes sociales' },
