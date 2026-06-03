@@ -6,9 +6,10 @@ import AdminLayout   from './components/layout/AdminLayout'
 import DashboardPage from './pages/admin/DashboardPage'
 import RegistrosPage from './pages/admin/RegistrosPage'
 import AnalisisPage  from './pages/admin/AnalisisPage'
-import UsuariosPage  from './pages/admin/UsuariosPage'
-import QRPage        from './pages/admin/QRPage'
-import NotFoundPage  from './pages/NotFoundPage'
+import UsuariosPage      from './pages/admin/UsuariosPage'
+import QRPage            from './pages/admin/QRPage'
+import ResetPasswordPage from './pages/admin/ResetPasswordPage'
+import NotFoundPage      from './pages/NotFoundPage'
 import LoadingSpinner from './components/ui/LoadingSpinner'
 
 function ProtectedRoute({ children, adminOnly = false }) {
@@ -24,7 +25,8 @@ function AppRoutes() {
     <Routes>
       <Route path="/"         element={<Navigate to="/encuesta" replace />} />
       <Route path="/encuesta" element={<EncuestaPage />} />
-      <Route path="/login"    element={<LoginPage />} />
+      <Route path="/login"          element={<LoginPage />} />
+      <Route path="/reset-password" element={<ResetPasswordPage />} />
 
       <Route path="/admin" element={
         <ProtectedRoute>
