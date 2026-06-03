@@ -61,7 +61,7 @@ serve(async (req) => {
         type: 'recovery',
         email: email.toLowerCase(),
         options: {
-          redirectTo: 'https://satisfaccion.cacsantabarbara.co/#/login',
+          redirectTo: 'https://juanetayo-projects.github.io/satisfaccion/#/login',
         },
       })
     } else {
@@ -70,7 +70,7 @@ serve(async (req) => {
         email.toLowerCase(),
         {
           data: { nombre, rol: rolFinal },
-          redirectTo: 'https://satisfaccion.cacsantabarbara.co/#/login',
+          redirectTo: 'https://juanetayo-projects.github.io/satisfaccion/#/login',
         }
       )
       if (inviteErr) return json({ error: inviteErr.message }, 400)
